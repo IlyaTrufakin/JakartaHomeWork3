@@ -1,10 +1,9 @@
-package itstep.learning.jakartahomework3;
+package itstep.learning.servlets;
 
 import java.io.*;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
 
 //@WebServlet("/")
 //@WebServlet(name = "helloServlet", value = "/hello-servlet")

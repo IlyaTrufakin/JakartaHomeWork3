@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%
     String error = (String) request.getAttribute("error");
     List<?> databases = (List<?>) request.getAttribute("dataBases");
