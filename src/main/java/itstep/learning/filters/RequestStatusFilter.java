@@ -1,5 +1,6 @@
 package itstep.learning.filters;
 
+import com.google.inject.Singleton;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import jakarta.servlet.http.HttpServletResponseWrapper;
 import static jakarta.ws.rs.core.Response.Status.fromStatusCode;
 
-@WebFilter("/*")
+@Singleton
 public class RequestStatusFilter implements Filter {
     private static final Logger logger = Logger.getLogger(RequestStatusFilter.class.getName());
 

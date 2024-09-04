@@ -61,8 +61,40 @@
 
 <div id="main-content">
     gsdfrgsdrfg
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="<%=contextPath%>/img/images.webp" alt="logo" class="d-inline-block align-text-top">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="<%=contextPath%>">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%=contextPath%>/db">DataBase</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%=contextPath%>/logging">Logging</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%=contextPath%>/ErrorPage">ErrorPage</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-
+    <main class="container">
+        <jsp:include page="<%= contentPage %>"/>
+    </main>
+    <div class="spacer"></div>
     <p><strong><%= statusCodeMessage %>
     </strong></p>
     <footer class="text-center text-lg-start bg-body-tertiary text-muted">

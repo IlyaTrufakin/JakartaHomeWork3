@@ -4,6 +4,21 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
+    <filter>
+        <filter-name>guiceFilter</filter-name>
+        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>guiceFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <listener>
+        <listener-class>itstep.learning.ioc.IocContextListenerGuice</listener-class>
+    </listener>
+
+
     <error-page>
         <location>/error</location>
     </error-page>
