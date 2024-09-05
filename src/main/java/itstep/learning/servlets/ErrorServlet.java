@@ -1,5 +1,6 @@
 package itstep.learning.servlets;
 
+import com.google.inject.Singleton;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,13 +11,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Enumeration;
 
-@WebServlet("/error")
+//@Singleton
 public class ErrorServlet extends HttpServlet {
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        System.out.println("ErrorServlet initialized");
-    }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

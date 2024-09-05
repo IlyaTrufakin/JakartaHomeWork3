@@ -17,6 +17,8 @@ public class DebugInfoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("DebugInfoServlet: Received request");
+
         Map<String, Object> debugInfo = new HashMap<>();
         debugInfo.put("serverTime", System.currentTimeMillis());
         debugInfo.put("requestMethod", request.getMethod());
@@ -26,5 +28,6 @@ public class DebugInfoServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(gson.toJson(debugInfo));
+        System.out.println("DebugInfoServlet: Sending response: " + gson.toJson(debugInfo));
     }
 }

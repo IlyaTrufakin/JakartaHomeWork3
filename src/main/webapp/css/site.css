@@ -1,3 +1,9 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+
 body {
     background-color: papayawhip;
     display: flex;
@@ -20,19 +26,27 @@ footer {
 }
 
 #main-content {
-    margin-right: 300px;
+    height: 100vh;
+    overflow-y: auto;
 }
 
-#debug-terminal {
-    position: fixed;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 300px;
+
+#debug-terminal-container {
+    height: 100vh;
+    overflow: hidden;
     background-color: #f8f9fa;
     border-left: 1px solid #dee2e6;
     padding: 15px;
-    overflow-y: auto;
+}
+
+
+#debug-terminal {
     font-family: monospace;
     font-size: 12px;
+    overflow-y: auto;
+}
+
+#terminal-content {
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }

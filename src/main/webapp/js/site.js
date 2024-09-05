@@ -12,8 +12,13 @@ function addToTerminal(message) {
 // Функция для обновления отладочной информации
 function updateDebugInfo() {
     addToTerminal('Fetching debug info...');
-    fetch('<%=contextPath%>/api/debug-info')
-        .then(response => response.json())
+    fetch(contextPath + '/api/debug-info')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             addToTerminal('Debug info received:');
             for (let key in data) {
@@ -22,11 +27,12 @@ function updateDebugInfo() {
         })
         .catch(error => {
             addToTerminal('Error fetching debug info: ' + error);
+            console.error('Error details:', error);
         });
 }
 
 // Добавляем начальную отладочную информацию
-var debugMessages =  debugMessagesJson;
+let debugMessages = debugMessagesJson;
 debugMessages.forEach(function(message) {
     addToTerminal(message);
 });
@@ -38,4 +44,4 @@ document.getElementById('update-debug-info').addEventListener('click', updateDeb
 // updateDebugInfo();
 
 // Опционально: можно настроить периодическое обновление
- setInterval(updateDebugInfo, 1000); // Обновление каждую минуту
+// setInterval(updateDebugInfo, 3000); // Обновление каждую минуту
