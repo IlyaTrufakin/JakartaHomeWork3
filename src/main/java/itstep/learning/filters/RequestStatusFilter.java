@@ -1,68 +1,63 @@
 package itstep.learning.filters;
 
 import com.google.inject.Singleton;
+import itstep.learning.debug.DebugInfoHolder;
 import jakarta.servlet.*;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.core.*;
-import java.util.logging.Logger;
+
 import java.io.IOException;
-import jakarta.servlet.http.HttpServletResponseWrapper;
-import static jakarta.ws.rs.core.Response.Status.fromStatusCode;
 
 @Singleton
 public class RequestStatusFilter implements Filter {
-    private static final Logger logger = Logger.getLogger(RequestStatusFilter.class.getName());
+    private static final String HEADER_NAME = "X-Log-Update-Time";
+    private static long lastUpdateTime = System.currentTimeMillis();
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("RequestStatusFilter выполняется");
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        // Обертка для захвата статуса
-//        HttpServletResponseWrapper wrappedResponse = new HttpServletResponseWrapper(res) {
-//            private int httpStatus = SC_OK;
-//
-//            @Override
-//            public void setStatus(int sc) {
-//                super.setStatus(sc);
-//                this.httpStatus = sc;
-//            }
-//
-//            @Override
-//            public void sendError(int sc, String msg) throws IOException {
-//                super.sendError(sc, msg);
-//                this.httpStatus = sc;
-//            }
-//
-//            @Override
-//            public int getStatus() {
-//                return this.httpStatus;
-//            }
-//        };
+        // Пропускаем запросы к /api/debug-info
+        if (httpRequest.getRequestURI().endsWith("/api/debug-info")) {
+            chain.doFilter(request, response);
+            return;
+        } else {
+            // Добавляем заголовок X-Log-Update-Time и обрабатываем запрос
+            lastUpdateTime = System.currentTimeMillis();
+            httpResponse.setHeader(HEADER_NAME, String.valueOf(lastUpdateTime));
+            System.out.println("lastUpdateTime " + String.valueOf(lastUpdateTime));
 
+            chain.doFilter(request, response); //************************************************************
 
-        System.out.println("get status before filter executed");
+            // Сохраняем статус после выполнения цепочки фильтров
+            int statusCode = httpResponse.getStatus();
+            String servletName = httpRequest.getServletPath();
+            String requestUri = httpRequest.getRequestURI();
+            String method = httpRequest.getMethod();
 
-        // Сохраняем текущий статус после выполнения фильтра
-        //int statusCode = wrappedResponse.getStatus();
-        int statusCode = res.getStatus();
-        Response.Status status = fromStatusCode(statusCode);
-        String statusMessage = (status != null) ? status.toString() : "Unknown";
-        String statusCodeFamily = (status != null) ? status.getFamily().toString() : "Unknown";
-        StatusCodeInfo statusCodeInfo = new StatusCodeInfo(statusCode, statusMessage, statusCodeFamily);
-        req.setAttribute("StatusCodeInfo", statusCodeInfo);
+            // Формируем сообщение для отладки
+            DebugInfoHolder debugInfo = DebugInfoHolder.getOrCreate(httpRequest.getSession());
+            String formattedMessage = String.format(
+                    "Запрос на сервер (выход из фильтра): \n" +
+                            "Статус (код): %s\n" +
+                            "Имя обрабатывающего сервлета: %s\n" +
+                            "Запрошенный URI: %s\n" +
+                            "Метод запроса: %s",
+                    statusCode,
+                    servletName != null ? servletName : "N/A",
+                    requestUri != null ? requestUri : "N/A",
+                    method != null ? method : "N/A"
+            );
+            debugInfo.addMessage(formattedMessage);
 
+            // Обновляем время и добавляем заголовок
 
-        // Выполняем следующий фильтр
-        // chain.doFilter(request, wrappedResponse);
-        chain.doFilter(req, res);
+        }
+    }
 
-
-        System.out.println("get status after filter executed");
-
-
+    public static void updateLogTime() {
+        lastUpdateTime = System.currentTimeMillis();
     }
 }

@@ -10,17 +10,18 @@ public class WebModule extends com.google.inject.servlet.ServletModule {
         bind(HomePageServlet.class).in(Singleton.class);
         bind(DbServlet.class).in(Singleton.class);
         bind(ErrorServlet.class).in(Singleton.class);
-        bind(DebugInfoServlet.class).in(Singleton.class);
+        bind(DebugInfoAPIServlet.class).in(Singleton.class);
         bind(LoggingServlet.class).in(Singleton.class);
 
-        filter("/*").through(CharsetEncodingFilter.class);
- //       filter("/*").through(RequestStatusFilter.class);
+        filterRegex("^/(?!img/.*).*$").through(CharsetEncodingFilter.class);
+        filter("/*").through(RequestStatusFilter.class);
+
 
         serve("/").with(HomePageServlet.class);
         serve("/db").with(DbServlet.class);
         serve("/logging").with(LoggingServlet.class);
         serve("/error").with(ErrorServlet.class);
-        serve("/api/debug-info").with(DebugInfoServlet.class);
+        serve("/api/debug-info").with(DebugInfoAPIServlet.class);
         super.configureServlets();
     }
 }

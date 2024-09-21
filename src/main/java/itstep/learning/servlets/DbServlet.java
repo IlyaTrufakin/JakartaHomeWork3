@@ -12,7 +12,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Singleton
 public class DbServlet extends HttpServlet {
 
     @Override
@@ -46,6 +45,7 @@ public class DbServlet extends HttpServlet {
         } catch (SQLException ex) {
             request.setAttribute("dbError", ex.getMessage());
         }
+        response.setContentType("text/html; charset=UTF-8");
         request.setAttribute("fromServlet", "DbServlet");
         request.setAttribute("ContentPage", "db.jsp");
         request.getRequestDispatcher("WEB-INF/views/_layout.jsp").forward(request, response);

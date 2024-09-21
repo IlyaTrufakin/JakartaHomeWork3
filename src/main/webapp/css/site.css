@@ -1,52 +1,16 @@
-html, body {
-    height: 100%;
-    overflow: hidden;
-}
-
-
-body {
-    background-color: papayawhip;
-    display: flex;
-    flex-direction: column;
-
-}
-
-.spacer {
-    flex: 1;
-}
-
-.navbar-brand img {
-    max-height: 50px;
-    max-width: 50px;
-}
-
-footer {
-    background-color: cornflowerblue;
+.diagnostics {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 30%; /* Ширина окна справа */
+    height: 100vh; /* Высота на весь экран */
+    overflow-y: auto; /* Вертикальный скролл */
+    background-color: #d3d3d3;
     padding: 10px;
-}
-
-#main-content {
-    height: 100vh;
-    overflow-y: auto;
-}
-
-
-#debug-terminal-container {
-    height: 100vh;
-    overflow: hidden;
-    background-color: #f8f9fa;
     border-left: 1px solid #dee2e6;
-    padding: 15px;
 }
 
-
-#debug-terminal {
-    font-family: monospace;
-    font-size: 12px;
-    overflow-y: auto;
-}
-
-#terminal-content {
-    white-space: pre-wrap;
-    word-wrap: break-word;
+/* Основной контент слева */
+.main-content {
+    margin-right: 30%; /* Отступ для правого окна */
 }

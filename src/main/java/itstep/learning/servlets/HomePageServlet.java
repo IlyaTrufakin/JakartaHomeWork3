@@ -6,13 +6,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 
-@Singleton
+
 public class HomePageServlet extends HttpServlet {
  @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   //   response.addHeader("Cache-Control", "no-cache");
   //   Cookie cookie = new Cookie("user", "test_user");
    //  response.addCookie(cookie);
+     response.setContentType("text/html; charset=UTF-8");
      request.setAttribute("debugInfo", "Home servlet running");
      request.setAttribute("fromServlet", "HomePageServlet");
      request.setAttribute("ContentPage", "index.jsp");

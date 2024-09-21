@@ -1,57 +1,76 @@
 package itstep.learning.servlets;
 
-import com.google.inject.Singleton;
+import itstep.learning.debug.DebugInfoHolder;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Enumeration;
+import java.util.ArrayList;
+import java.util.List;
 
-//@Singleton
+
 public class ErrorServlet extends HttpServlet {
 
+    private void processError(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        Integer statusCode = (Integer) request.getAttribute("jakarta.servlet.error.status_code");
+//        String servletName = (String) request.getAttribute("jakarta.servlet.error.servlet_name");
+//        String requestUri = (String) request.getAttribute("jakarta.servlet.error.request_uri");
+//        Throwable throwable = (Throwable) request.getAttribute("jakarta.servlet.error.exception");
+//        String method = request.getMethod();
+//
+//        response.setContentType("text/html;charset=UTF-8");
+//
+//        DebugInfoHolder debugInfo = DebugInfoHolder.getOrCreate(request.getSession());
+//        debugInfo.addMessage("ErrorServlet: Error occurred");
+//        debugInfo.addMessage("Status Code: " + statusCode);
+//        debugInfo.addMessage("Servlet Name: " + servletName);
+//        debugInfo.addMessage("Request URI: " + requestUri);
+//        debugInfo.addMessage("Method: " + method);
+//
+//        if (throwable != null) {
+//            debugInfo.addMessage("Exception: " + throwable.getMessage());
+//        }
+
+
+
+
+//
+//        if (statusCode == 404) {
+//            response.setContentType("text/html;charset=UTF-8");
+//            response.getWriter().write("<h1>404 - Страница не найдена</h1>");
+//            response.getWriter().write("<p>Запрошенный ресурс не существует: " + requestUri + "</p>");
+//
+//        } else {
+//            // Обработка других ошибок
+//            response.setContentType("text/html;charset=UTF-8");
+//            response.getWriter().write("<h1>Произошла ошибка</h1>");
+//            response.getWriter().write("<p>Код ошибки: " + statusCode + "</p>");
+//            response.getWriter().write("<p>Имя сервлета: " + servletName + "</p>");
+//            response.getWriter().write("<p>Запрошенный ресурс: " + requestUri + "</p>");
+//        }
+//
+
+
+
+        request.setAttribute("fromServlet", "ErrorServlet");
+        request.setAttribute("ContentPage", "noPageFound.jsp");
+        request.getRequestDispatcher("WEB-INF/views/_layout.jsp").forward(request, response);
+    }
+
+
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ErrorServlet service method called");
-
-        Throwable throwable = (Throwable) request.getAttribute("jakarta.servlet.error.exception");
-        Integer statusCode = (Integer) request.getAttribute("jakarta.servlet.error.status_code");
-        String servletName = (String) request.getAttribute("jakarta.servlet.error.servlet_name");
-        String requestUri = (String) request.getAttribute("jakarta.servlet.error.request_uri");
-
-        System.out.println("Ошибка:");
-        System.out.println("Status code: " + statusCode);
-        System.out.println("Servlet name: " + servletName);
-        System.out.println("Request URI: " + requestUri);
-        if (throwable != null) {
-            System.out.println("Exception: " + throwable.getMessage());
-        }
-
-        //  проверка метода запроса
-        String method = request.getMethod();
-        System.out.println("Request method: " + method);
-        super.service(request, response);
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processError(req, resp);
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ErrorServlet doGet method called");
-        handleError(request, response);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processError(req, resp);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ErrorServlet doPost method called");
-        handleError(request, response);
-    }
-
-    private void handleError(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Handling error in ErrorServlet");
+}
 
 //        Throwable throwable = (Throwable) request.getAttribute("jakarta.servlet.error.exception");
 //        String errorMessage;
@@ -69,10 +88,7 @@ public class ErrorServlet extends HttpServlet {
 //
 //        request.setAttribute("errorMessage", errorMessage);
 
-        //
-        request.setAttribute("fromServlet", "ErrorServlet");
-        request.setAttribute("ContentPage", "noPageFound.jsp");
-        request.getRequestDispatcher("WEB-INF/views/_layout.jsp").forward(request, response);
+//
 
-    }
-}
+
+
